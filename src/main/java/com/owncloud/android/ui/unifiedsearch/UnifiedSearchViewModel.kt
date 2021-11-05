@@ -106,7 +106,7 @@ class UnifiedSearchViewModel(application: Application) : AndroidViewModel(applic
     open fun startLoading(query: String) {
         if (!loadingStarted) {
             loadingStarted = true
-            this.query.value = query
+            this.query.value = query.trim()
             initialQuery()
         }
     }
