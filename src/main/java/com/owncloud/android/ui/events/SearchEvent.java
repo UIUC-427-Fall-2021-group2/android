@@ -32,7 +32,7 @@ public class SearchEvent {
     public SearchRemoteOperation.SearchType searchType;
 
     public SearchEvent(String searchQuery, SearchRemoteOperation.SearchType searchType) {
-        this.searchQuery = searchQuery;
+        this.searchQuery = searchQuery.trim();
         this.searchType = searchType;
     }
 
