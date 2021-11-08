@@ -574,8 +574,8 @@ public class FileDisplayActivity extends FileActivity
         }
         setDrawerIndicatorEnabled(false);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.addToBackStack(null);
         transaction.replace(R.id.left_fragment_container, fragment, TAG_LIST_OF_FILES);
+        transaction.addToBackStack(null);
         transaction.commit();
 
         if (fragment instanceof UnifiedSearchFragment) {
@@ -1127,6 +1127,14 @@ public class FileDisplayActivity extends FileActivity
             hideSearchView(getCurrentDir());
             showSortListGroup(true);
             super.onBackPressed();
+            if (leftFragment instanceof PreviewMediaFragment) {
+                OCFileListFragment ocFileListFragment = getListOfFilesFragment();
+                refreshOCFileList(ocFileListFragment);
+                updateMenuAndActionBarForOCFileList(ocFileListFragment);
+                if (ocFileListFragment instanceof GalleryFragment) {
+                    ocFileListFragment.setFabVisible(false);
+                }
+            }
         }
     }
 
@@ -1172,7 +1180,27 @@ public class FileDisplayActivity extends FileActivity
         }
 
         OCFileListFragment ocFileListFragment = (OCFileListFragment) leftFragment;
+        refreshOCFileList(ocFileListFragment);
 
+        // Listen for upload messages
+        IntentFilter uploadIntentFilter = new IntentFilter(FileUploader.getUploadFinishMessage());
+        mUploadFinishReceiver = new UploadFinishReceiver();
+        localBroadcastManager.registerReceiver(mUploadFinishReceiver, uploadIntentFilter);
+
+        // Listen for download messages
+        IntentFilter downloadIntentFilter = new IntentFilter(FileDownloader.getDownloadAddedMessage());
+        downloadIntentFilter.addAction(FileDownloader.getDownloadFinishMessage());
+        mDownloadFinishReceiver = new DownloadFinishReceiver();
+        localBroadcastManager.registerReceiver(mDownloadFinishReceiver, downloadIntentFilter);
+
+        // setup drawer
+        menuItemId = getIntent().getIntExtra(FileDisplayActivity.DRAWER_MENU_ID, menuItemId);
+        updateMenuAndActionBarForOCFileList(ocFileListFragment);
+
+        Log_OC.v(TAG, "onResume() end");
+    }
+
+    private void refreshOCFileList(OCFileListFragment ocFileListFragment) {
         ocFileListFragment.setLoading(mSyncInProgress);
         syncAndUpdateFolder(false);
 
@@ -1192,21 +1220,9 @@ public class FileDisplayActivity extends FileActivity
             ocFileListFragment.listDirectory(startFile, false, false);
             updateActionBarTitleAndHomeButton(startFile);
         }
+    }
 
-        // Listen for upload messages
-        IntentFilter uploadIntentFilter = new IntentFilter(FileUploader.getUploadFinishMessage());
-        mUploadFinishReceiver = new UploadFinishReceiver();
-        localBroadcastManager.registerReceiver(mUploadFinishReceiver, uploadIntentFilter);
-
-        // Listen for download messages
-        IntentFilter downloadIntentFilter = new IntentFilter(FileDownloader.getDownloadAddedMessage());
-        downloadIntentFilter.addAction(FileDownloader.getDownloadFinishMessage());
-        mDownloadFinishReceiver = new DownloadFinishReceiver();
-        localBroadcastManager.registerReceiver(mDownloadFinishReceiver, downloadIntentFilter);
-
-        // setup drawer
-        menuItemId = getIntent().getIntExtra(FileDisplayActivity.DRAWER_MENU_ID, menuItemId);
-
+    private void updateMenuAndActionBarForOCFileList(OCFileListFragment ocFileListFragment) {
         if (menuItemId == -1) {
             if (MainApp.isOnlyOnDevice()) {
                 setDrawerMenuItemChecked(R.id.nav_on_device);
@@ -1227,8 +1243,6 @@ public class FileDisplayActivity extends FileActivity
         if (ocFileListFragment instanceof GalleryFragment) {
             updateActionBarTitleAndHomeButtonByString(getString(R.string.drawer_item_gallery));
         }
-
-        Log_OC.v(TAG, "onResume() end");
     }
 
 
