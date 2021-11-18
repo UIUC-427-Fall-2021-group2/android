@@ -11,13 +11,14 @@ public class SearchEventTest {
 
     @Test
     public void testTrimming() {
+        String expectedOutput = "test";
         SearchEvent event = new SearchEvent("test ", FILE_SEARCH);
-        assertTrue(event.getSearchQuery().equals("test"));
+        assertTrue(event.getSearchQuery().equals(expectedOutput));
         SearchEvent event2 = new SearchEvent(" test", FILE_SEARCH);
-        assertTrue(event2.getSearchQuery().equals("test"));
+        assertTrue(event2.getSearchQuery().equals(expectedOutput));
         SearchEvent event3 = new SearchEvent(" test ", FILE_SEARCH);
-        assertTrue(event3.getSearchQuery().equals("test"));
+        assertTrue(event3.getSearchQuery().equals(expectedOutput));
         SearchEvent event4 = new SearchEvent("test", FILE_SEARCH);
-        assertTrue(event4.getSearchQuery().equals("test"));
+        assertTrue(event4.getSearchQuery().equals(expectedOutput));
     }
 }
