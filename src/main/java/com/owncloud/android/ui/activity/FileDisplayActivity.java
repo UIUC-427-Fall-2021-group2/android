@@ -1078,6 +1078,7 @@ public class FileDisplayActivity extends FileActivity
      *    2. close drawer if opened
      *    3. close FAB if open (only if drawer isn't open)
      *    4. navigate up (only if drawer and FAB aren't open)
+     *    5. explicitly update title and FAB state of previous screen
      */
     @SuppressFBWarnings("ITC_INHERITANCE_TYPE_CHECKING")
     @Override
