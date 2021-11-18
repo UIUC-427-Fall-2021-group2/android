@@ -31,6 +31,9 @@ public class SearchEvent {
     public String searchQuery;
     public SearchRemoteOperation.SearchType searchType;
 
+    /**
+     * Constructor for the SearchEvent class
+     */
     public SearchEvent(String searchQuery, SearchRemoteOperation.SearchType searchType) {
         this.searchQuery = searchQuery.trim();
         this.searchType = searchType;
