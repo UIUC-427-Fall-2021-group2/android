@@ -31,6 +31,7 @@ public class SearchEvent {
     public String searchQuery;
     public SearchRemoteOperation.SearchType searchType;
 
+    // CS 427 issue link: https://github.com/nextcloud/android/issues/8262
     /**
      * Constructor for the SearchEvent class
      */
