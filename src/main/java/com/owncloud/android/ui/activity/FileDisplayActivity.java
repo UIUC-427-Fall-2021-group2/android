@@ -574,6 +574,7 @@ public class FileDisplayActivity extends FileActivity
         }
         setDrawerIndicatorEnabled(false);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // CS 427 Issue Link: https://github.com/nextcloud/android/issues/8528
         transaction.replace(R.id.left_fragment_container, fragment, TAG_LIST_OF_FILES);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -1128,6 +1129,7 @@ public class FileDisplayActivity extends FileActivity
             hideSearchView(getCurrentDir());
             showSortListGroup(true);
             super.onBackPressed();
+            // CS 427 Issue Link: https://github.com/nextcloud/android/issues/8528
             if (leftFragment instanceof PreviewMediaFragment) {
                 OCFileListFragment ocFileListFragment = getListOfFilesFragment();
                 refreshOCFileList(ocFileListFragment);
@@ -1180,6 +1182,7 @@ public class FileDisplayActivity extends FileActivity
             return;
         }
 
+        // CS 427 Issue Link: https://github.com/nextcloud/android/issues/8528
         OCFileListFragment ocFileListFragment = (OCFileListFragment) leftFragment;
         refreshOCFileList(ocFileListFragment);
 
@@ -1201,6 +1204,7 @@ public class FileDisplayActivity extends FileActivity
         Log_OC.v(TAG, "onResume() end");
     }
 
+    // CS 427 Issue Link: https://github.com/nextcloud/android/issues/8528
     private void refreshOCFileList(OCFileListFragment ocFileListFragment) {
         ocFileListFragment.setLoading(mSyncInProgress);
         syncAndUpdateFolder(false);
