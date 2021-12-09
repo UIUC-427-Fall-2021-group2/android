@@ -1366,6 +1366,7 @@ public class FileDisplayActivity extends FileActivity
                         if (ocFileListFragment != null) {
                             ocFileListFragment.setLoading(mSyncInProgress);
                         }
+                        //CS427 Issue Link: https://github.com/nextcloud/android/issues/3648
                         if (setBackgroundText()){
                             setDrawerMenuItemChecked(R.id.nav_all_files);
                         };
@@ -1401,6 +1402,7 @@ public class FileDisplayActivity extends FileActivity
      * Return true if folder is empty.
      */
     private boolean setBackgroundText() {
+        //CS427 Issue Link: https://github.com/nextcloud/android/issues/3648
         boolean folderIsEmpty = false;
         final OCFileListFragment ocFileListFragment = getListOfFilesFragment();
         if (ocFileListFragment != null) {

@@ -49,7 +49,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
-
+//CS427 Issue Link: https://github.com/nextcloud/android/issues/3648
 /**
  * Implements a test for drawer menu behavior
  * when navigating to an empty folder
